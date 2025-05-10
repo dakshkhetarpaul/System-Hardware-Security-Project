@@ -23,9 +23,11 @@ def jaccard_similarity(s1: str, s2: str) -> float:
 
 # === MAIN GUESSABILITY FUNCTION ===
 def guessability_from_personal_history(new_pw: str, past_pw_list: List[str]) -> tuple:
+    new_pw_lower = new_pw.lower()
     for old_pw in past_pw_list:
-        lev_score = SequenceMatcher(None, new_pw, old_pw).ratio()
-        jac_score = jaccard_similarity(new_pw, old_pw)
+        old_pw_lower = old_pw.lower()
+        lev_score = SequenceMatcher(None, new_pw_lower, old_pw_lower).ratio()
+        jac_score = jaccard_similarity(new_pw_lower, old_pw_lower)
 
         #print(f"Compared to: {old_pw}")
         #print(f"  Levenshtein similarity: {lev_score:.2f}")

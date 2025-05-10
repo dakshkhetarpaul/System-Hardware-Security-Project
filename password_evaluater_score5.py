@@ -125,9 +125,11 @@ def evaluate_password(password: str):
     print(f"Security Score: {score}/6")
 
     if score == 6:
-        print("Excellent! Strong and practical password.")
+        print("Excellent! Very Strong and practical password.")
+    elif score >= 5:
+        print("Good!")
     elif score >= 3:
-        print("⚠️ Moderate. Could use some hardening.")
+        print("Moderate. Could use some hardening ")
     else:
         print(" Weak. Avoid using this password.")
 

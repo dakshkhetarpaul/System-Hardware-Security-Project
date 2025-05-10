@@ -55,7 +55,7 @@ def modify_password(base: str) -> str:
 # === MAIN EXECUTION ===
 if __name__ == "__main__":
     # EXAMPLE: You can change this to input() if you want user input
-    base_password = input("Enter password to evaluate: ")
+    base_password = input("Enter password to modify: ")
     modify_password(base_password)
 
 
