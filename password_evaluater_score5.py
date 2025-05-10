@@ -7,6 +7,11 @@ MAX_LENGTH = 15
 MIN_LENGTH = 10
 MIN_ENTROPY = 60
 DICTIONARY_FILE = "rockyou.txt"
+CSV_FILE = "example_list.csv"
+
+
+from guess_factor import guessability_from_personal_history, load_personal_passwords
+
 
 def load_dictionary(file_path):
     try:
@@ -94,16 +99,32 @@ def evaluate_password(password: str):
     else:
         reasons.append("Too basic, likely guessable")
 
+    # Personal Guessability Check (replaces pattern check)
+    past_passwords, pw_to_site = load_personal_passwords(CSV_FILE)
+    guessability, matched_pw = guessability_from_personal_history(password, past_passwords)
+    if guessability.startswith("LOW"):
+        score += 1
+    elif guessability.startswith("MEDIUM"):
+        score += 0.5  # partial credit
+    
+    # Reason logging
+    if guessability.startswith("HIGH") or guessability.startswith("MEDIUM"):
+        website = pw_to_site.get(matched_pw, "unknown site")
+        reasons.append(f"Too similar to password used on {website}")
+
     # Pattern Check
     if not has_predictable_pattern(password):
         score += 1
     else:
         reasons.append("Has predictable pattern")
 
-    # Final Score Report
-    print(f"Security Score: {score}/5")
+        
+ 
 
-    if score == 5:
+    # Final Score Report
+    print(f"Security Score: {score}/6")
+
+    if score == 6:
         print("Excellent! Strong and practical password.")
     elif score >= 3:
         print("⚠️ Moderate. Could use some hardening.")
